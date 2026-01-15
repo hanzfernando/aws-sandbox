@@ -12,3 +12,25 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model user {
+  id              Int     @id @default(autoincrement())
+  email           String  @unique
+  password        String
+  name            String?
+  profile_pic_url String?    
+  notes           note[]    
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+}
+
+model note {
+  id          Int      @id @default(autoincrement())
+  title       String
+  content     String
+  user        user     @relation(fields: [user_id], references: [id])
+  user_id     Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+}
+
