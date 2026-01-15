@@ -1,6 +1,8 @@
 import { Router } from "express";
 import prisma from "./config/database.config";
 import AuthContainer from "./modules/auth/auth.container";
+import NoteContainer from "./modules/note/note.container";
+import { requireAuth } from "core/middleware/auth.middleware";
 
 /**
  * Main route configuration class that organizes all API endpoints
@@ -9,10 +11,12 @@ import AuthContainer from "./modules/auth/auth.container";
 export class AppRoutes {
 	private router: Router;
 	private authContainer: AuthContainer;
+	private noteContainer: NoteContainer;
 
 	constructor() {
 		this.router = Router();
 		this.authContainer = new AuthContainer(prisma);
+		this.noteContainer = new NoteContainer(prisma);
 	
 		this.initializeRoutes();
 	}
@@ -23,6 +27,7 @@ export class AppRoutes {
 	 */
 	private initializeRoutes(): void {
 		this.router.use("/auth", this.authContainer.routes.getRouter());
+		this.router.use("/notes", requireAuth, this.noteContainer.routes.getRouter());
 	}
 
 	/**

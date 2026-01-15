@@ -4,7 +4,6 @@ declare global {
       user?: {
         id: number;
         email: string;
-        role: "USER" | "ADMIN" | "SUPERADMIN";
       };
       auth?: {
         type: AuthType;

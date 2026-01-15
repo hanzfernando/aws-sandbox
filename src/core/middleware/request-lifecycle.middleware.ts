@@ -94,11 +94,10 @@ export const requestLogger = (req: Request, res: Response, next: NextFunction) =
   const startTime = Date.now();
 
   // Log request start for sensitive operations and protected modules
+  const url = req.originalUrl || req.path;
   const isSecurityPath = (
-    req.path.includes("/auth/") ||
-    req.path.includes("/admin/") ||
-    req.path.includes("/categories") ||
-    req.path.includes("/users")
+    url.includes("/auth") ||
+    url.includes("/notes")
   );
   if (isSecurityPath) {
     logger.info(`Security Request [${req.method}] ${req.path}`, {
