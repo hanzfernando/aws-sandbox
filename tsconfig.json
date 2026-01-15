@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
+    "target": "ES2023",
     "module": "ESNext",
     "moduleResolution": "node",
-    "target": "ES2023",
+
+    "outDir": "dist",
+
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
+
     "baseUrl": "src",
     "paths": {
       "@prisma/client": ["../generated/prisma/client"]
