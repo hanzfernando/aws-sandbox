@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Response } from "express";
-import { AuthUserDto, LoginRequestDto, LoginResponseDto, LogoutResponseDto, User } from "./auth.type";
+import { AuthUserDto, LoginRequestDto, LoginResponseDto, LogoutResponseDto, SignupRequestDto, SignupResponseDto, User } from "./auth.type";
 import AuthRepository from "./auth.repository";
 import { generateToken } from "../../core/utils/auth-helper";
 import { config } from "../../config/env.config";
@@ -18,6 +18,18 @@ export class AuthService {
 		};
 	}
 
+  async signup(payload: SignupRequestDto, res: Response): Promise<SignupResponseDto> {
+    const existingUser = await this.repo.findUserByEmail(payload.email);
+    if (existingUser) {
+      throw new AppError("Email already in use", 400);
+    }
+    const hashedPassword = await bcrypt.hash(payload.password, 10);
+    const newUser = await this.repo.createUser(payload.name, payload.email, hashedPassword);
+    const authUser = this.toAuthUser(newUser);
+    const token = generateToken(authUser.id, res);
+    return { user: authUser, token };
+  }
+  
 	async login(payload: LoginRequestDto, res: Response): Promise<LoginResponseDto> {
 		const user = await this.repo.findUserByEmail(payload.email);
 		if (!user) {
