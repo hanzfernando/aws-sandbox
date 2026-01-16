@@ -4,7 +4,7 @@ import { customCors } from './core/middleware/cors.middleware.js';
 import { connectDatabase } from './config/database.config.js';
 import { logger } from './core/utils/logger.js';
 import { errorHandler, requestLogger } from './core/middleware/request-lifecycle.middleware.js';
-import { AppRoutes } from 'routes.js';
+import { AppRoutes } from './routes.js';
 
 const app = express();
 const PORT = config.port || 3000;

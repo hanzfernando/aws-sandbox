@@ -2,11 +2,11 @@
   "name": "aws-sandbox",
   "version": "1.0.0",
   "description": "Project to explore AWS",
-  "main": "index.js",
+  "main": "dist/src/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc && tsc-alias",
-    "start": "node dist/server.js",
+    "build": "prisma generate && tsc && tsc-alias",
+    "start": "node dist/src/server.js",
     "seed": "tsx src/seed.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
@@ -30,6 +30,7 @@
     "@types/node": "^25.0.8",
     "@types/pg": "^8.16.0",
     "prisma": "^7.2.0",
+    "tsc-alias": "^1.8.16",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },

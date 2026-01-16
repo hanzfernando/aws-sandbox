@@ -4,8 +4,11 @@
  */
 import dotenv from "dotenv";
 
-// Load environment variables from .env file
-dotenv.config();
+// In local/dev, load variables from .env into process.env.
+// In Docker/production we rely on real environment variables (Compose, cloud, etc.).
+if (!process.env.NODE_ENV || process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
+  dotenv.config();
+}
 
 /**
  * Application configuration object with validated environment variables

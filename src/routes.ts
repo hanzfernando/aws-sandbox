@@ -1,8 +1,8 @@
 import { Router } from "express";
-import prisma from "./config/database.config";
+import prisma from "./config/database.config.js";
 import AuthContainer from "./modules/auth/auth.container";
 import NoteContainer from "./modules/note/note.container";
-import { requireAuth } from "core/middleware/auth.middleware";
+import { requireAuth } from "./core/middleware/auth.middleware.js";
 
 /**
  * Main route configuration class that organizes all API endpoints
