@@ -1,6 +1,7 @@
 import express from 'express';
+import cors from 'cors';
 import { config } from './config/env.config.js';
-import { customCors } from './core/middleware/cors.middleware.js';
+import { customCors, corsOptions } from './core/middleware/cors.middleware.js';
 import { connectDatabase } from './config/database.config.js';
 import { logger } from './core/utils/logger.js';
 import { errorHandler, requestLogger } from './core/middleware/request-lifecycle.middleware.js';
@@ -12,9 +13,8 @@ const PORT = config.port || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
 app.use(customCors);
-
+app.options(/(.*)/, cors(corsOptions));
 // Request logging (security-focused)
 app.use(requestLogger);
 
