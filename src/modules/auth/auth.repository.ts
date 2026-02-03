@@ -37,6 +37,7 @@ export class AuthRepository {
 				id: true,
 				name: true,
 				email: true,
+				profile_pic_url: true,
 			},
 		});
 	}
