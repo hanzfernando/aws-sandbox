@@ -2,6 +2,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  profile_pic_url?: string | null;
 }
 
 export interface SignupRequestDto {
@@ -24,7 +25,7 @@ export interface AuthUserDto {
 	id: number;
 	name: string;
 	email: string;
-  profile_pic_url?: string;
+  profile_pic_url?: string | null;
 }
 
 export interface LoginResponseDto {

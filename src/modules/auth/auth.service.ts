@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import { Response } from "express";
 import { AuthUserDto, LoginRequestDto, LoginResponseDto, LogoutResponseDto, SignupRequestDto, SignupResponseDto, User } from "./auth.type";
 import AuthRepository from "./auth.repository";
+import { s3Storage } from "../user/storage/s3.storage";
 import { generateToken } from "../../core/utils/auth-helper";
 import { config } from "../../config/env.config";
 import { AppError } from "../../core/utils/error";
@@ -10,11 +11,16 @@ import { AppError } from "../../core/utils/error";
 export class AuthService {
 	constructor(private readonly repo: AuthRepository) {}
 
-	private toAuthUser(user: User): AuthUserDto {
+	private async toAuthUser(user: User): Promise<AuthUserDto> {
+		const profilePicUrl = user.profile_pic_url
+			? await s3Storage.getSignedUrl(user.profile_pic_url, 24 * 60 * 60)
+			: null;
+
 		return {
 			id: user.id,
 			name: user.name,
 			email: user.email,
+			profile_pic_url: profilePicUrl,
 		};
 	}
 
@@ -23,9 +29,9 @@ export class AuthService {
     if (existingUser) {
       throw new AppError("Email already in use", 400);
     }
-    const hashedPassword = await bcrypt.hash(payload.password, 10);
-    const newUser = await this.repo.createUser(payload.name, payload.email, hashedPassword);
-    const authUser = this.toAuthUser(newUser);
+		const hashedPassword = await bcrypt.hash(payload.password, 10);
+		const newUser = await this.repo.createUser(payload.name, payload.email, hashedPassword);
+		const authUser = await this.toAuthUser(newUser);
     const token = generateToken(authUser.id, res);
     return { user: authUser, token };
   }
@@ -39,7 +45,7 @@ export class AuthService {
 		if (!isValid) {
 			throw new AppError("Invalid email or password", 400);
 		}
-		const authUser = this.toAuthUser(user);
+		const authUser = await this.toAuthUser(user);
     const token = generateToken(authUser.id, res);
 		return { user: authUser, token };
 	}

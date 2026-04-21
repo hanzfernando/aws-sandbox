@@ -2,6 +2,7 @@ import { Router } from "express";
 import prisma from "./config/database.config.js";
 import AuthContainer from "./modules/auth/auth.container";
 import NoteContainer from "./modules/note/note.container";
+import UserContainer from "./modules/user/user.container.js";
 import { requireAuth } from "./core/middleware/auth.middleware.js";
 
 /**
@@ -12,11 +13,13 @@ export class AppRoutes {
 	private router: Router;
 	private authContainer: AuthContainer;
 	private noteContainer: NoteContainer;
+	private userContainer: UserContainer;
 
 	constructor() {
 		this.router = Router();
 		this.authContainer = new AuthContainer(prisma);
 		this.noteContainer = new NoteContainer(prisma);
+		this.userContainer = new UserContainer(prisma);
 	
 		this.initializeRoutes();
 	}
@@ -28,6 +31,7 @@ export class AppRoutes {
 	private initializeRoutes(): void {
 		this.router.use("/auth", this.authContainer.routes.getRouter());
 		this.router.use("/notes", requireAuth, this.noteContainer.routes.getRouter());
+		this.router.use("/users", requireAuth, this.userContainer.routes.getRouter());
 	}
 
 	/**

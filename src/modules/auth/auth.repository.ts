@@ -14,6 +14,7 @@ export class AuthRepository {
 				id: true,
 				name: true,
 				email: true,
+				profile_pic_url: true,
 			},
 		});
 	}
@@ -25,7 +26,8 @@ export class AuthRepository {
 				id: true,
 				name: true,
 				email: true,
-        password: true,
+	        password: true,
+	        profile_pic_url: true,
 			},
 		});
 	}
