@@ -28,7 +28,7 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.0.0",
-    "@types/node": "^25.0.8",
+    "@types/node": "^25.6.0",
     "@types/pg": "^8.16.0",
     "prisma": "^7.2.0",
     "tsc-alias": "^1.8.16",
@@ -36,8 +36,8 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@aws-sdk/s3-request-presigner": "^3.981.0",
     "@aws-sdk/client-s3": "^3.981.0",
+    "@aws-sdk/s3-request-presigner": "^3.981.0",
     "@prisma/adapter-pg": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "bcryptjs": "^3.0.3",

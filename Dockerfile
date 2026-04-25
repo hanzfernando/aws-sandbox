@@ -22,9 +22,9 @@ FROM base as deps
 # Leverage bind mounts to package.json and package-lock.json to avoid having to copy them
 # into this layer.
 RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
-    --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev
+  --mount=type=bind,source=package-lock.json,target=package-lock.json \
+  --mount=type=cache,target=/root/.npm \
+  npm ci --omit=dev
 
 ################################################################################
 # Create a stage for building the application.
@@ -58,7 +58,7 @@ COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY --from=build /usr/src/app/. ./
 
 # Create logs directory with proper permissions BEFORE switching to node user
-RUN mkdir -p logs && chown -R node:node logs
+RUN mkdir -p logs && chown -R node:node /usr/src/app
 
 # Switch to non-root user
 USER node
@@ -66,4 +66,4 @@ USER node
 EXPOSE 3000
 
 # Run Prisma migrations and start the application
-CMD npx prisma migrate init && npm start
+CMD npx prisma generate && npx prisma migrate deploy && npm start

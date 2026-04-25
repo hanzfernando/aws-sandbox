@@ -18,6 +18,10 @@ app.options(/(.*)/, cors(corsOptions));
 // Request logging (security-focused)
 app.use(requestLogger);
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // Routes
 const routes = new AppRoutes();
 app.use('/api', routes.getRouter());
@@ -25,20 +29,12 @@ app.use('/api', routes.getRouter());
 // Global error handler (must be after routes)
 app.use(errorHandler);
 
-startServer();
- 
-export async function startServer(): Promise<void> {
-	try {
-		await connectDatabase();
-		logger.info('Database connection established');
+app.listen(PORT, "0.0.0.0", () => {
+  logger.info(`Server is running on port ${PORT}`);
+});
 
-		app.listen(PORT, () => {
-			logger.info(`Server is running on port ${PORT}`);
-		});
-	} catch (error) {
-		logger.error('Failed to start server', { error });
-		process.exit(1);
-	}
-}
+connectDatabase()
+  .then(() => logger.info("Database connected"))
+  .catch((err) => logger.error("Database connection failed", err));
 
 

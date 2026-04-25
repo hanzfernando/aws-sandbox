@@ -16,34 +16,12 @@ services:
       - .env
     environment:
       NODE_ENV: production
-      # Override DATABASE_URL for Docker environment
-      DATABASE_URL: postgresql://postgres:${DB_PASSWORD:-postgres}@db:5432/${DB_NAME:-myapp}?schema=public
     ports:
       - 3000:3000
-    depends_on:
-      db:
-        condition: service_healthy
-
-  db:
-    image: postgres:16-alpine
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-      POSTGRES_DB: ${DB_NAME:-myapp}
     volumes:
-      - db-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-volumes:
-  db-data:
-    driver: local
+      - .:/app
+      - /app/node_modules  # prevent host node_modules from overwriting container's
+    command: npm run dev   # assumes nodemon or similar watch script
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
