@@ -5,8 +5,9 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "esm"
 }
 
 datasource db {
@@ -14,23 +15,22 @@ datasource db {
 }
 
 model users {
-  id              Int     @id @default(autoincrement())
-  email           String  @unique
+  id              Int      @id @default(autoincrement())
+  email           String   @unique
   password        String
   name            String
-  profile_pic_url String?    
-  notes           notes[]    
+  profile_pic_url String?
+  notes           notes[]
   created_at      DateTime @default(now())
   updated_at      DateTime @updatedAt
 }
 
 model notes {
-  id          Int      @id @default(autoincrement())
-  title       String
-  content     String
-  user        users     @relation(fields: [user_id], references: [id])
-  user_id     Int
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  title      String
+  content    String
+  user       users    @relation(fields: [user_id], references: [id])
+  user_id    Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
-
