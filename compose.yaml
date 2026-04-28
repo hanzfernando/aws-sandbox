@@ -18,10 +18,10 @@ services:
       NODE_ENV: production
     ports:
       - 3000:3000
-    volumes:
-      - .:/app
-      - /app/node_modules  # prevent host node_modules from overwriting container's
-    command: npm run dev   # assumes nodemon or similar watch script
+    # volumes:
+    #   - .:/app
+    #   - /app/node_modules  # prevent host node_modules from overwriting container's
+    # command: npm run dev   # assumes nodemon or similar watch script
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
