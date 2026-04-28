@@ -33,9 +33,9 @@ FROM deps as build
 # Download additional development dependencies before building, as some projects require
 # "devDependencies" to be installed to build. If you don't need this, remove this step.
 RUN --mount=type=bind,source=package.json,target=package.json \
-    --mount=type=bind,source=package-lock.json,target=package-lock.json \
-    --mount=type=cache,target=/root/.npm \
-    npm ci
+  --mount=type=bind,source=package-lock.json,target=package-lock.json \
+  --mount=type=cache,target=/root/.npm \
+  npm ci
 
 # Copy the rest of the source files into the image.
 COPY . .
@@ -66,4 +66,4 @@ USER node
 EXPOSE 3000
 
 # Run Prisma migrations and start the application
-CMD npx prisma generate && npx prisma migrate deploy && npm start
+CMD npx prisma generate && npm start
