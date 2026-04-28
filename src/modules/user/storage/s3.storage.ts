@@ -1,5 +1,5 @@
+import { randomUUID } from "node:crypto"
 import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand } from "@aws-sdk/client-s3"
-import { v4 as uuidv4 } from "uuid"
 import { config } from "../../../config/env.config"
 import { getSignedUrl as awsGetSignedUrl } from "@aws-sdk/s3-request-presigner"
 
@@ -29,7 +29,7 @@ export class S3Storage {
   }
 
   async uploadProfileImage(file: UploadFile, userId: number): Promise<string> {
-    const key = `notes-app-profiles/${userId}/${uuidv4()}`
+    const key = `notes-app-profiles/${userId}/${randomUUID()}`
 
     await this.s3.send(
       new PutObjectCommand({
