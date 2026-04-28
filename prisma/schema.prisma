@@ -7,7 +7,8 @@
 generator client {
   provider     = "prisma-client"
   output       = "../generated/prisma"
-  moduleFormat = "esm"
+  // Generate a CommonJS client to match the app's compiled CommonJS output
+  moduleFormat = "cjs"
 }
 
 datasource db {

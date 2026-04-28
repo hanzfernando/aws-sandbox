@@ -1,4 +1,5 @@
-import type { PrismaClient } from "@prisma/client";
+import type { PrismaClient } from "../../../generated/prisma/client";
+
 import NoteRepository from "./note.repository";
 import NoteService from "./note.service";
 import NoteController from "./note.controller";

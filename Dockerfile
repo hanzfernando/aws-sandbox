@@ -66,4 +66,4 @@ USER node
 EXPOSE 3000
 
 # Run Prisma migrations and start the application
-CMD npx prisma generate && npm start
+CMD npx prisma generate && cp -r generated/prisma dist/generated/prisma && npm start

@@ -1,4 +1,5 @@
-import type { PrismaClient } from "@prisma/client";
+import type { PrismaClient } from "../../../generated/prisma/client";
+
 import { UserRepository } from "./user.repository";
 import { UserService } from "./user.service";
 import { UserController } from "./user.controller";
